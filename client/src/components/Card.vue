@@ -52,7 +52,11 @@ export default {
   props: ["question"],
   created() {
     baseURL
-      .get(`/answers?search=${this.question._id}`)
+      .get(`/answers?search=${this.question._id}`, {
+        headers: {
+          token: localStorage.getItem("token")
+        }
+      })
       .then(({ data }) => {
         this.answerLength = data.length;
       })
@@ -62,8 +66,8 @@ export default {
   },
   methods: {
     showQuestionDetail(id) {
-      this.$router.push(`/questions/${id}`)
-    },
+      this.$router.push(`/questions/${id}`);
+    }
   }
 };
 </script>

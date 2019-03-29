@@ -8,18 +8,15 @@
 <style>
 </style>
 <script>
-import Navbar from '@/components/Navbar.vue';
+import Navbar from "@/components/Navbar.vue";
 
 export default {
   components: { Navbar },
   created() {
-    if (localStorage.getItem('token')) {
-      this.$store.state.isLogin = true
-      this.$store.dispatch('getQuestionList');
-    } else {
-      this.$store.dispatch('getQuestionList');
+    if (localStorage.getItem("token")) {
+      this.$store.state.isLogin = true;
     }
-
-  },
+    this.$store.dispatch("getQuestionList");
+  }
 };
 </script>

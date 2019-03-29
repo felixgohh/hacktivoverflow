@@ -1,10 +1,10 @@
 <template>
-  <div class="container pt-5 offset-sm-2 col-sm-12" v-if="myAnswers && isLogin == true">
+  <div class="container my-answers pt-5 offset-sm-2 col-sm-10" v-if="myAnswers && isLogin == true">
     <h1>My Answers</h1>
-    <br>
-    <br>
-    <div class="row" v-for="(answer,index) in myAnswers" :key="index">
+    <div class="row answer-list" v-for="(answer,index) in myAnswers" :key="index">
       <div>
+        <h3><b>Question : {{answer.questionId.title}}</b></h3>
+        <br>
         <h3>
           <b>{{answer.title}}</b>
         </h3>
@@ -24,6 +24,14 @@
   </div>
 </template>
 <style scoped>
+.answer-list {
+  padding-top: 100px;
+}
+
+.my-answers {
+  max-width: 1200px;
+}
+
 .edit-question {
   padding: 5px 15px;
   font-size: 20px;
@@ -43,7 +51,9 @@ export default {
   created() {
     baseURL
       .get(`/answers?user=${localStorage.getItem("userId")}`, {
-        headers: localStorage.getItem("token")
+        headers: {
+          token: localStorage.getItem("token")
+        }
       })
       .then(({ data }) => {
         this.$store.commit("setMyAnswers", data);

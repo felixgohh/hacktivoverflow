@@ -48,11 +48,15 @@ export default {
         .put(
           `answers/${id}`,
           {
-            title: this.singleQuestion.title,
-            description: this.singleQuestion.description
+            title: this.singleAnswer.title,
+            description: this.singleAnswer.description
           },
           {
-            headers: localStorage.getItem("token")
+            headers: {
+              token: localStorage.getItem("token"),
+              authorized: localStorage.getItem('userId'),
+              answerId: id,
+            }
           }
         )
         .then(({ data }) => {

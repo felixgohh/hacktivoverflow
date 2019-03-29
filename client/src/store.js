@@ -3,7 +3,6 @@ import Vuex from 'vuex';
 import router from './router';
 import baseURL from '@/api/baseURL';
 
-
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -52,7 +51,9 @@ export default new Vuex.Store({
     getQuestionList({ commit }) {
       baseURL
         .get('/questions', {
-          headers: localStorage.getItem('token')
+          headers: {
+            token: localStorage.getItem('token')
+          }
         })
         .then(({ data }) => {
           commit('setQuestionList', data);
@@ -67,21 +68,53 @@ export default new Vuex.Store({
           email: payload.email,
           password: payload.password,
         }, {
-            headers: localStorage.getItem('token')
+            headers: {
+              token: localStorage.getItem('token')
+            }
           })
         .then(({ data }) => {
+          Swal.fire({
+            position: 'top-end',
+            type: 'success',
+            title: `Welcome to HacktivOverflow`,
+            showConfirmButton: false,
+            timer: 1500
+          })
           commit('setIsLogin', data);
         })
         .catch(({ response }) => {
+          if (response.data == undefined) {
+            Swal.fire({
+              position: 'top-end',
+              type: 'warning',
+              title: 'Wrong email/password',
+              showConfirmButton: false,
+              timer: 1500
+            })
+          } else {
+            Swal.fire({
+              position: 'top-end',
+              type: 'warning',
+              title: `${response.data.message}`,
+              showConfirmButton: false,
+              timer: 1500
+            })
+          }
           console.log(response);
         });
     },
     getSingleQuestion({ commit }, payload) {
+      console.log('masuk sini');
+      
       baseURL
         .get(`/questions/${payload.id}`, {
-          headers: localStorage.getItem('token')
+          headers: {
+            token: localStorage.getItem('token')
+          }
         })
         .then(({ data }) => {
+          console.log(data);
+          
           commit("setSingleQuestion", data);
         })
         .catch(({ response }) => {
@@ -90,10 +123,14 @@ export default new Vuex.Store({
     },
     getQuestionDetail({ commit }, payload) {
       Promise.all([baseURL.get(`/questions/${payload.id}`, {
-        headers: localStorage.getItem('token')
+        headers: {
+          token: localStorage.getItem('token')
+        }
       }),
       baseURL.get(`/answers?search=${payload.id}`, {
-        headers: localStorage.getItem('token')
+        headers: {
+          token: localStorage.getItem('token')
+        }
       })
       ])
         .then(response => {
@@ -108,14 +145,15 @@ export default new Vuex.Store({
     getSingleAnswer({ commit }, payload) {
       baseURL
         .get(`answers/${payload.id}`, {
-          headers: localStorage.getItem('token')
+          headers: {
+            token: localStorage.getItem('token')
+          }
         })
         .then(({ data }) => {
           commit('setSingleAnswer', data)
         })
         .catch(({ response }) => {
           console.log(response);
-
         })
     }
   },

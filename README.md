@@ -1,1 +1,29 @@
-# hacktivoverflow
+# HacktivOverflow
+## URLs
+
+Client URL : `http://localhost:8080`<br>
+Server URL : `http://localhost:3000`
+
+## Usage
+
+Make sure you have Node.js and npm installed in your computer, and then run `npm install`.
+
+In order to get access to all of the routes, you will need a `JWT(JSON Web Token) Token` which will be generated automatically after a successful sign in action on the client-side.
+
+Run `npm run start` to start the server.
+
+## Routes
+| Route           | HTTP       | Headers(s)                                    | Body                                                         | Description                  | Success Case                                                 | Error Case                                  |
+| --------------- | ---------- | --------------------------------------------- | ------------------------------------------------------------ | ---------------------------- | ------------------------------------------------------------ | ------------------------------------------- |
+| `/questions`     | **GET**    | none | none | Get all questions list | Show all the question list in `array of object` :<br> [{ _id: ObjectId,<br> title: String,<br> description: String,<br>upvotes: [ObjectId],<br>downvotes: [ObjectId],<br>userId:ObjectId}...]<br> with status code 200 | Status code: 500 or 409, Error info in JSON |
+| `/questions`     | **POST**   | An Authenticated JWT Token | title: String(**Required**),<br>description: String(**Required**),<br>upvotes: ObjectId(**Default:[]**),<br>downvotes: ObjectId(**Default:[]**),<br>userId: ObjectId(**Required**) | Create a new question | Show the created question in `object` :<br> { _id: ObjectId,<br> title: String,<br> description: String,<br>upvotes: [ObjectId],<br>downvotes: [ObjectId],<br>userId:ObjectId}<br> with status code 201 | Status code: 500 or 409, Error info in JSON |
+| `/questions/:id` | **GET**    | An Authenticated JWT Token | none | Get a single question's info | Show the question's info in `object` :<br> { _id: ObjectId,<br> title: String,<br> description: String,<br>upvotes: [ObjectId],<br>downvotes: [ObjectId],<br>userId:ObjectId}<br> with status code 200 | Status code: 500 or 409, Error info in JSON |
+| `/questions/:id` | **PUT**    | An Authenticated JWT Token, An UserId of the question's creator | title: String,<br> description: String,<br>upvotes: [ObjectId],<br>downvotes: [ObjectId],<br>userId:ObjectId | Update a question's information | Show the updated question's information in `object` :<br> { _id: ObjectId,<br> title: String,<br> description: String,<br>upvotes: [ObjectId],<br>downvotes: [ObjectId],<br>userId:ObjectId} with status code 200 | Status code: 500 or 409, Error info in JSON |
+| `/questions/upvote/:id` | **PUT**    | An Authenticated JWT Token | userId: ObjectId | Update a question's upvote | Show the updated question's information in `object` :<br> { _id: ObjectId,<br> title: String,<br> description: String,<br>upvotes: [ObjectId],<br>downvotes: [ObjectId],<br>userId:ObjectId} with status code 200 | Status code: 500 or 409, Error info in JSON |
+| `/questions/downvote/:id` | **PUT**    | An Authenticated JWT Token | userId: ObjectId | Update a question's downvote | Show the updated question's information in `object` :<br> { _id: ObjectId,<br> title: String,<br> description: String,<br>upvotes: [ObjectId],<br>downvotes: [ObjectId],<br>userId:ObjectId} with status code 200 | Status code: 500 or 409, Error info in JSON |
+| `/questions/:id` | **DELETE** | An Authenticated JWT Token,<br> An UserId of the question's creator | none | Delete a question | Show the deleted question in `object` :<br> { _id: ObjectId,<br> name: String,<br> price: String,<br>image: String,<br>stock: Number} with status code 200 | Status code: 500 or 409, Error info in JSON |
+| `/answers`     | **GET**    | An Authenticated JWT Token | none | Get all answers list | Show all the answers list in `array of object` :<br> [{ _id: ObjectId,<br> title: String,<br> description: String,<br>upvotes: [ObjectId],<br>downvotes: [ObjectId],<br>questionId:ObjectId,<br>userId:ObjectId}...]<br> with status code 200 | Status code: 500 or 409, Error info in JSON |
+| `/answers` | **POST**   | An Authenticated JWT Token | title: String(**Required**),<br>description: String(**Required**),<br>upvotes: ObjectId(**Default:[]**),<br>downvotes: ObjectId(**Default:[]**),<br>questionId: ObjectId(**Required**),<br>userId: ObjectId(**Required**) | Create a new answer | Show the created answer in `object` :<br> { _id: ObjectId,<br> title: String,<br> description: String,<br>upvotes: [ObjectId],<br>downvotes: [ObjectId],<br>questionId:ObjectId,<br>userId:ObjectId} with status code 201 | Status code: 500 or 409, Error info in JSON |
+| `/answers/:id` | **PUT**    | An Authenticated JWT Token, An UserId of the answer's creator | title: String,<br> description: String,<br>upvotes: [ObjectId],<br>downvotes: [ObjectId],<br>questionId: ObjectId,<br>userId: ObjectId | Update an answer's information | Show the updated answer's information in `object` :<br> { _id: ObjectId,<br> title: String,<br> description: String,<br>upvotes: [ObjectId],<br>downvotes: [ObjectId],<br>userId:ObjectId} with status code 200 | Status code: 500 or 409, Error info in JSON |
+| `/answers/upvote/:id` | **PUT**    | An Authenticated JWT Token | userId: ObjectId | Update an answer's upvote | Show the updated answer's information in `object` :<br> { _id: ObjectId,<br> title: String,<br> description: String,<br>upvotes: [ObjectId],<br>downvotes: [ObjectId],<br>userId:ObjectId} with status code 200 | Status code: 500 or 409, Error info in JSON |
+| `/answers/downvote/:id` | **PUT**    | An Authenticated JWT Token | userId: ObjectId | Update an answer's downvote | Show the updated answer's information in `object` :<br> { _id: ObjectId,<br> title: String,<br> description: String,<br>upvotes: [ObjectId],<br>downvotes: [ObjectId],<br>userId:ObjectId} with status code 200 | Status code: 500 or 409, Error info in JSON |

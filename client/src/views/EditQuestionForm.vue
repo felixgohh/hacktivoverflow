@@ -52,7 +52,11 @@ export default {
             description: this.singleQuestion.description
           },
           {
-            headers: localStorage.getItem("token")
+            headers: {
+              token: localStorage.getItem("token"),
+              authorized: localStorage.getItem('userId'),
+              questionId: id
+            }
           }
         )
         .then(({ data }) => {

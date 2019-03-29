@@ -18,7 +18,6 @@
         <br>
         <h3>Tell us more about your question</h3>
         <h6>Your description gives people the information they need to help you answer your question.</h6>
-        <h5>Hi, {{name}}</h5>
         <ckeditor :editor="editor" v-model="description"></ckeditor>
         <br>
         <br>
@@ -74,7 +73,9 @@ export default {
             userId: localStorage.getItem("userId")
           },
           {
-            headers: localStorage.getItem("token")
+            headers: {
+              token: localStorage.getItem("token")
+            }
           }
         )
         .then(({ data }) => {

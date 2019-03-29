@@ -78,7 +78,9 @@ export default {
             password: this.password
           },
           {
-            headers: localStorage.getItem("token")
+            headers: {
+              token: localStorage.getItem("token")
+            }
           }
         )
         .then(({ data }) => {

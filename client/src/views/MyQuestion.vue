@@ -1,9 +1,9 @@
 <template>
-  <div class="container pt-5 offset-sm-2 col-sm-12" v-if="myQuestions && isLogin == true">
+  <div class="container pt-5 offset-sm-2 col-sm-10" v-if="myQuestions && isLogin == true">
     <h1>My Questions</h1>
     <br>
     <br>
-    <div class="row" v-for="(question,index) in myQuestions" :key="index">
+    <div class="row my-questions" v-for="(question,index) in myQuestions" :key="index">
       <div>
         <h3>
           <b>{{question.title}}</b>
@@ -31,6 +31,10 @@
   </div>
 </template>
 <style scoped>
+.my-questions {
+  max-width: 1200px;
+}
+
 .edit-question {
   padding: 5px 15px;
   font-size: 20px;
@@ -50,7 +54,9 @@ export default {
   created() {
     baseURL
       .get(`/questions?search=${localStorage.getItem("userId")}`, {
-        headers: localStorage.getItem("token")
+        headers: {
+          token: localStorage.getItem("token")
+        }
       })
       .then(({ data }) => {
         this.$store.commit("setMyQuestions", data);
@@ -66,7 +72,9 @@ export default {
     deleteQuestion(id) {
       baseURL
         .delete(`/questions/${id}`, {
-          headers: localStorage.getItem("token")
+          headers: {
+            token: localStorage.getItem("token")
+          }
         })
         .then(({ data }) => {
           this.$router.push("/my-questions");

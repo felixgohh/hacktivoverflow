@@ -69,8 +69,13 @@
             <div class="card">
               <h5 class="card-header">{{answer.title}}</h5>
               <div v-html="answer.description" class="card-body answers-list"></div>
-              <div class="card-footer">
+              <div class="card-footer d-flex justify-content-around">
                 <h6>answered by: {{answer.userId.first_name}} {{answer.userId.last_name}}</h6>
+                <button
+                  @click="showAnswerEditForm(answer._id)"
+                  v-if="answer.userId._id == currentUser && isLogin == true"
+                  class="btn btn-default"
+                >Edit Answer</button>
               </div>
             </div>
           </div>
@@ -164,7 +169,9 @@ export default {
             userId: localStorage.getItem("userId")
           },
           {
-            headers: localStorage.getItem("token")
+            headers: {
+              token: localStorage.getItem("token")
+            }
           }
         )
         .then(({ data }) => {
@@ -173,6 +180,13 @@ export default {
           });
         })
         .catch(({ response }) => {
+          Swal.fire({
+              position: 'top-end',
+              type: 'warning',
+              title: `${response.data}`,
+              showConfirmButton: false,
+              timer: 1500
+            })
           console.log(response);
         });
     },
@@ -184,7 +198,9 @@ export default {
             userId: localStorage.getItem("userId")
           },
           {
-            headers: localStorage.getItem("token")
+            headers: {
+              token: localStorage.getItem("token")
+            }
           }
         )
         .then(({ data }) => {
@@ -193,6 +209,13 @@ export default {
           });
         })
         .catch(({ response }) => {
+          Swal.fire({
+              position: 'top-end',
+              type: 'warning',
+              title: `${response.data}`,
+              showConfirmButton: false,
+              timer: 1500
+            })
           console.log(response);
         });
     },
@@ -204,7 +227,9 @@ export default {
             userId: localStorage.getItem("userId")
           },
           {
-            headers: localStorage.getItem("token")
+            headers: {
+              token: localStorage.getItem("token")
+            }
           }
         )
         .then(({ data }) => {
@@ -213,6 +238,13 @@ export default {
           });
         })
         .catch(({ response }) => {
+          Swal.fire({
+              position: 'top-end',
+              type: 'warning',
+              title: `${response.data}`,
+              showConfirmButton: false,
+              timer: 1500
+            })
           console.log(response);
         });
     },
@@ -224,7 +256,9 @@ export default {
             userId: localStorage.getItem("userId")
           },
           {
-            headers: localStorage.getItem("token")
+            headers: {
+              token: localStorage.getItem("token")
+            }
           }
         )
         .then(({ data }) => {
@@ -233,6 +267,13 @@ export default {
           });
         })
         .catch(({ response }) => {
+          Swal.fire({
+              position: 'top-end',
+              type: 'warning',
+              title: `${response.data}`,
+              showConfirmButton: false,
+              timer: 1500
+            })
           console.log(response);
         });
     },
@@ -242,7 +283,11 @@ export default {
     deleteQuestion(id) {
       baseURL
         .delete(`/questions/${id}`, {
-          headers: localStorage.getItem("token")
+          headers: {
+            token: localStorage.getItem("token"),
+            authorized: localStorage.getItem("userId"),
+            questionId: id
+          }
         })
         .then(({ data }) => {
           this.$store.dispatch("getQuestionList");
@@ -262,7 +307,9 @@ export default {
             questionId
           },
           {
-            headers: localStorage.getItem("token")
+            headers: {
+              token: localStorage.getItem("token")
+            }
           }
         )
         .then(({ data }) => {
@@ -275,6 +322,9 @@ export default {
         .catch(({ response }) => {
           console.log(response);
         });
+    },
+    showAnswerEditForm(id){
+      this.$router.push(`/edit-answer/${id}`);
     }
   }
 };
